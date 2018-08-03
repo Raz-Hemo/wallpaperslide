@@ -1,15 +1,12 @@
-import subprocess
+import ctypes
 import sys
 import os
 import time
 import random
 
 def set_wallpaper(imgpath):
-    startupinfo = None
-    if os.name == 'nt':
-        startupinfo = subprocess.STARTUPINFO()
-        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-    subprocess.Popen('powershell Set-ItemProperty -path \'HKCU:\\Control Panel\\Desktop\\\' -name wallpaper -value {};rundll32.exe user32.dll, UpdatePerUserSystemParameters'.format(imgpath), startupinfo=startupinfo)
+    SPI_SETDESKWALLPAPER = 20
+    ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, imgpath, 0)
 
 
 def is_img_file(f):
@@ -25,7 +22,7 @@ def main():
     while True:
         files = [f for f in os.listdir(sys.argv[1]) if is_img_file(f)]
         set_wallpaper(os.path.join(sys.argv[1], random.choice(files)))
-        time.sleep(int(sys.argv[2]) * 60)
+        time.sleep(float(sys.argv[2]) * 60)
 
 
 if __name__ == '__main__':
