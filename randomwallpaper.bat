@@ -1,0 +1,1 @@
+start pythonw "C:\Users\Raz\Google Drive\Source Dump\randomwallpaper\randomwallpaper.py" C:\Users\Raz\wallpapers 10
